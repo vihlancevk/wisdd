@@ -1,0 +1,37 @@
+services:
+  ansible-control:
+    build:
+      context: .
+      dockerfile: ./dockerfileUbuntuHost
+    container_name: ansible-control
+    ports:
+      - "4444:22"
+    volumes:
+      - ./ansible:/home/admin/ansible
+    working_dir: /home/admin/ansible
+    tty: true
+    stdin_open: true
+
+  nginx-host:
+    build:
+      context: .
+      dockerfile: ./dockerfileUbuntu
+    container_name: nginx-host
+    ports:
+      - "2222:22"
+      - "8080:80"
+    volumes:
+      - ./ansible/roles/nginx/templates/nginx.conf.j2:/etc/nginx/nginx.conf
+
+  app-host:
+    build:
+      context: .
+      dockerfile: ./dockerfileUbuntu
+    container_name: app-host
+    ports:
+      - "3333:22"
+    volumes:
+      - ./src:/app
+    working_dir: /app
+    expose:
+      - "5000"

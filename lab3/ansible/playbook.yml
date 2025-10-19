@@ -1,0 +1,9 @@
+- hosts: nginx
+  roles:
+    - nginx
+
+- hosts: app
+  vars:
+    working_dir: /app
+  roles:
+    - app
