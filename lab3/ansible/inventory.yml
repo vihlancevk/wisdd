@@ -1,0 +1,19 @@
+all:
+  children:
+    nginx:
+      hosts:
+        nginx-host:
+          ansible_host: nginx-host
+          ansible_user: admin
+          ansible_ssh_pass: securepassword
+          ansible_become_pass: securepassword
+          ansible_port: 22
+
+    app:
+      hosts:
+        app-host:
+          ansible_host: app-host
+          ansible_user: admin
+          ansible_ssh_pass: securepassword
+          ansible_become_pass: securepassword
+          ansible_port: 22
