@@ -1,0 +1,19 @@
+FROM ubuntu:24.04
+
+# Установка нужных служб
+RUN apt update && \
+    apt install -y sudo openssh-server && \
+    apt install -y python3.12 python3.12-venv
+RUN mkdir /var/run/sshd
+
+# Создание пользователя вместо root
+RUN useradd -m -s /bin/bash admin
+RUN echo 'admin:password' | chpasswd
+
+# Настройка ключей SSH
+RUN mkdir /home/admin/.ssh
+RUN chown -R admin:admin /home/admin/.ssh
+RUN chmod 700 /home/admin/.ssh
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
